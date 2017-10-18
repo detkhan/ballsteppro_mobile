@@ -1,268 +1,6 @@
 $$("#content").html("");
+//<div class="left"><a href="index.html" class="back link icon-only"><i class="icon icon-back"></i></a></div>
 start();
-function getuser(){
-if(localStorage.user_id)
-{
-user_id = localStorage.user_id;
-}
-else
-{
-user_id = "no";
-}
-}
-
-function start() {
-  if(!localStorage.start)
-  {
-    $$("#menu").css('display', 'none');
-    var content='';
-    content+='<div class="content-block-title">Select Team</div> \
-                    <div class="list-block accordion-list"> \
-                      <ul>';
-
-                      content+='<li class="accordion-item"><a href="#" class="item-content item-link"> \
-                      <div class="item-media">\
-                      <i class="facebook-avatar"><img src="" width="34" height="34"></i></div>\
-                                              <div class="item-inner"> \
-                                                <div class="item-title">\
-                                                  <div class="item-title">Premier</div>\
-                                                </div> \
-                                              </div></a> \
-                                            <div class="accordion-item-content"> \
-                                            <div class="list-block">\
-                                              <ul id="catdata1">';
-                                              content+='<li>\
-                                              <label  class="label-checkbox item-content" id="checkbox" newscat_id="">\
-                                                <input   type="checkbox" name="my-checkbox" newscat_id="">\
-                                                <div class="item-media">\
-                                                  <i class="icon icon-form-checkbox"></i>\
-                                                </div>\
-                                                    <div class="item-inner"> \
-                                                      <div  class="item-title">Arsenal</div>\
-                                                    </div>\
-                                                  </label>\
-                                                </li>';
-                      content+=' </ul>\
-                                            </div>\
-                                            </div> \
-                                          </li>';
-                                          content+='</ul>\
-                                                          </div>';
-                                          $$('#content').append(content);
-  }
-}//function start
-
-
-
-
-
-
-
-
-
-function feednews(pagex,typex,newscat_idx) {
-//myApp.showPreloader('loading...<br><span class="preloader"><span class="preloader-inner"><span class="preloader-inner-gap"></span><span class="preloader-inner-left"><span class="preloader-inner-half-circle"></span></span><span class="preloader-inner-right"><span class="preloader-inner-half-circle"></span></span></span></span>');
-$$("#content").attr("checkmenu",'1');
-var page=parseInt(pagex);
-var next=parseInt(page)+1;
-var url = "http://"+hosturl+"/newpaper/api/fetnews.php?jsoncallback=?";
-$$.getJSON(url, {page:page,user_id:user_id,type:typex,newscat_id:newscat_idx}, function (data) {
-$$.each(data, function(i, field){
-  var contentnews='<div class="card facebook-card" id="'+field.newsdetail_id+'"> \
-  <div class="card-header">   \
-    <div class="item-media"><i class="facebook-avatar"><img src="'+field.news_logo+'" width="34" height="34"></i></div>  \
-    <div class="facebook-name">#'+field.catalog_name+'</div>  \
-    <div class="facebook-date">'+field.published+'</div>  \
-  </div> \
-  <div class="card-content"> \
-    <div class="card-content-inner"> \
-  <div id="newslinkclick" linknews="'+field.news_link+'" newsdetail_id="'+field.newsdetail_id+'"> \
-      <p>'+field.news_title+' \
-      <img src="'+field.news_image+'" width="100%"> \
-  <p id="totallike" class="color-gray">ถูกใจ:<span id="likecon'+field.newsdetail_id+'">'+field.totallike+'</span>แชร์:'+field.totalshare+'อ่านแล้ว:'+field.totalread+'</p> \
-    </div> \
-  </div> \
-  </div> \
-   <div class="card-footer"> \
-    <a id="likenews" newsdetail_id="'+field.newsdetail_id+'" numlike="'+field.totallike+'" href="#"><div><i class="material-icons">thumb_up</i></div></a> \
-    <a id="share" newstitle="'+field.news_title+'"  newsimg="'+field.news_image+'" linknews="'+field.news_link+'" href="#"><div><i class="material-icons">share</i></div> \
-  </div> \
-  </div> \
-';
-var divcontent='#'+field.newsdetail_id;
-var checkcontent=$$(divcontent).html();
-  if(checkcontent){
-
-}else{
-$$("#content").append(contentnews);
-}
-
-//myApp.showPreloader('loading...<br><span class="preloader"><span class="preloader-inner"><span class="preloader-inner-gap"></span><span class="preloader-inner-left"><span class="preloader-inner-half-circle"></span></span><span class="preloader-inner-right"><span class="preloader-inner-half-circle"></span></span></span></span>');
-
-}); //each
-if(next==1){
-var content2='<div id="clicknewsbutton" pagenews="'+next+'"  typex="'+typex+'"  newscat_idx="'+newscat_idx+'"></div>';
-$$("#content").append(content2);
-}else{
-$$( "#clicknewsbutton" ).attr( "pagenews", next );
-$$( "#clicknewsbutton" ).attr( "typex", typex );
-$$( "#clicknewsbutton" ).attr( "newscat_idx", newscat_idx );
-}
-//myApp.hidePreloader();
-});
-}//function feednews
-
-
-
-
-
-
-
-
-function feedcat(user_id,type) {
-var news = "http://"+hosturl+"/newpaper/api/catnews.php?jsoncallback=?";
-$$.getJSON(news, {datatype:'getcat',user_id:user_id}, function (data) {
-//console.log(data);
-var content='';
-var newspaper_id;
-if(type==0){
-var namecat="เลือกติดตามข่าวตามที่สนใจ";
-}else{
-var namecat="เลือกอ่านข่าวตามหมวดของสำนักพิมพ์";
-}
-content+='<div class="content-block-title">'+namecat+'</div> \
-                <div class="list-block accordion-list"> \
-                  <ul>';
-$$.each(data, function(i, field){
-//console.log(field.newspaper_name);
-newspaper_id='';
-newspaper_id=field.newspaper_id;
-
-content+='<li class="accordion-item"><a href="#" class="item-content item-link"> \
-<div class="item-media">\
-<i class="facebook-avatar"><img src="'+field.newpaper_logo+'" width="34" height="34"></i></div>\
-                        <div class="item-inner"> \
-                          <div class="item-title">\
-                            <div class="item-title">'+field.newspaper_name+'</div>\
-                          </div> \
-                        </div></a> \
-                      <div class="accordion-item-content"> \
-                      <div class="list-block">\
-                        <ul id="catdata'+field.newspaper_id+'">';
-content+=' </ul>\
-                      </div>\
-                      </div> \
-                    </li>';
-getcatdata(newspaper_id,type);
-});
-
-content+='</ul>\
-                </div>';
-$$('#content').append(content);
-});
-}//function getcat
-
-function getcatdata(newspaper_id,type) {
-
-  var news = "http://"+hosturl+"/newpaper/api/catnews.php?jsoncallback=?";
-  $$.getJSON(news, {datatype:'getcatdata',newspaper_id:newspaper_id,user_id:user_id},function (data1) {
-    var  content1='';
-    var con_check='';
-    $$.each(data1, function(i1, field1){
-    if(type==0){
-      var checked=field1.checked;
-      if(checked=='checked'){
-      var con_check='checked="checked"';
-      var con_check2='checked="checked"';
-    }else{
-      var con_check2='checked="no"';
-    }
-    content1+='<li>\
-        <label  class="label-checkbox item-content" id="checkbox" newscat_id="'+field1.newscat_id+'" '+con_check2+'>\
-      <input   type="checkbox" name="my-checkbox" newscat_id="'+field1.newscat_id+'" '+con_check+'>\
-      <div class="item-media">\
-        <i class="icon icon-form-checkbox"></i>\
-      </div>\
-          <div class="item-inner"> \
-            <div  class="item-title">'+field1.catalog_name+'</div>\
-          </div>\
-        </label>\
-      </li>';
-    }else{
-      content1+='<li>\
-          <label  class="item-content" id="barcat" newscat_id="'+field1.newscat_id+'">\
-            <div class="item-inner"> \
-              <div  class="item-title">'+field1.catalog_name+'</div>\
-            </div>\
-          </label>\
-        </li>';
-    }
-    //  console.log(newspaper_id);
-    });
-    var addcat='#catdata'+newspaper_id;
-    $$(addcat).append(content1);
-  });
-}
-
-$$(document).on("click", '#checkbox', function() {
-  var isChecked = $$(this).attr('checked');
-  var newscat_id=$$(this).attr("newscat_id");
-  //alert(isChecked);
-  //console.log(newscat_id);
-  if(isChecked=="no"){
-  addcatdata(newscat_id);
-  var isCheckedadd = $$(this).attr('checked',"checked");
-  //console.log("add");
-  }else{
-delcatdata(newscat_id);
-  var isCheckedadd = $$(this).attr('checked',"no");
-//console.log("del");
-  }
-});
-/*
-$$(document).on("click", 'input[type="text"]', function() {
-  var isChecked = $$(this).prop('checked');
-  var newscat_id=$$(this).attr("newscat_id");
-  //console.log(newscat_id);
-  if(isChecked===true){
-  addcatdata(newscat_id);
-  //console.log("add");
-  }else{
-delcatdata(newscat_id);
-//console.log("del");
-  }
-});
-*/
-function addcatdata(newscat_id){
-  var newsdetail = "http://"+hosturl+"/newpaper/api/catnews.php?jsoncallback=?";
-  $$.getJSON( newsdetail, {
-      datatype:"addcatdata",
-      user_id:user_id,
-      newscat_id:newscat_id,
-  });
-}//function addcatdata
-
-function delcatdata(newscat_id){
-  var newsdetail = "http://"+hosturl+"/newpaper/api/catnews.php?jsoncallback=?";
-  $$.getJSON( newsdetail, {
-      datatype:"delcatdata",
-      user_id:user_id,
-      newscat_id:newscat_id,
-  });
-}//function delcatdata
-
-$$(document).on("click", "#barcat", function() {
-$$("#content").html("");
-myApp.attachInfiniteScroll($$('.infinite-scroll'));
-var addback='<a id="catbar" href="#" class="floating-button color-pink"> \
-Back \
-  </a>';
-$$(".page").append(addback);
-var newscat_id=$$(this).attr('newscat_id');
- feednews(0,3,newscat_id);
-});
-
-
 
 
 $$(document).on("click", "#feed", function() {
@@ -286,12 +24,12 @@ $$('.tab-link-highlight').transform('translate3d(200%, 0px, 0px)');
 $$("#content").html("");
 feednews(0,2,0);
  });
- $$(document).on("click", "#catbar", function() {
+ $$(document).on("click", "#account_circle", function() {
 $$("#content").html("");
  $$('.tab-link-highlight').transform('translate3d(300%, 0px, 0px)');
  $$(".floating-button").html("").hide();
- feedcat(user_id,1);
- myApp.detachInfiniteScroll($$('.infinite-scroll'));
+ checklogin();
+ //myApp.detachInfiniteScroll($$('.infinite-scroll'));
  });
  $$(document).on("click", "#setting", function() {
 $$(".floating-button").html("").hide();
@@ -305,6 +43,329 @@ $$('a.tab-link').click(function(){
     $$('a.tab-link').removeClass("active");
     $$(this).addClass("active");
 });
+
+function getuser(){
+if(localStorage.user_id)
+{
+user_id = localStorage.user_id;
+}
+else
+{
+var getuser = "http://"+hosturl+"/ballsteppro_mobile/api/get_user.php?jsoncallback=?";
+$$.getJSON( getuser, {
+    news_id:'news_id',
+  format: "json"
+},function( data ) {
+$$.each(data, function(i, field){
+user_id=field.user_id;
+localStorage.user_id=field.user_id;
+});
+});
+}
+}
+
+function start() {
+  if(!localStorage.start)
+  {
+  getuser();
+    $$(".toolbar").css('display', 'none');
+    var content='';
+    var url = "http://"+hosturl+"/ballsteppro_mobile/api/get_leg.php?jsoncallback=?";
+    $$.getJSON(url, function (data) {
+    content+='<div class="content-block-title">Select Team</div> \
+                    <div class="list-block accordion-list"> \
+                      <ul>';
+            $$.each(data, function(i, field){
+              var competitionId='';
+              competitionId=field.competitionId;
+                      content+='<li class="accordion-item"><a href="#" class="item-content item-link"> \
+                      <div class="item-media">\
+                      <i class="facebook-avatar"><img src="" width="34" height="34"></i></div>\
+                                              <div class="item-inner"> \
+                                                <div class="item-title">\
+                                                  <div class="item-title">'+field.competitionName+'</div>\
+                                                </div> \
+                                              </div></a> \
+                                            <div class="accordion-item-content"> \
+                                            <div class="list-block">\
+                                            <ul id="catdata'+field.competitionId+'">';;
+                                            content+=' </ul>\
+                                                                  </div>\
+                                                                  </div> \
+                                                                </li>';
+                                            getcatdata(competitionId);
+                                            });
+
+                                            content+='</ul>\
+                                                            </div>';
+var menu='<a id="home" href="#" class="button button-fill color-red">ยืนยัน</a>';
+                                            $$('#content').append(content);
+                                            $$('#menu_right').append(menu);
+                                            });
+  }
+}//function start
+
+function getcatdata(competitionId) {
+  var url = "http://"+hosturl+"/ballsteppro_mobile/api/get_legdata.php?jsoncallback=?";
+  $$.getJSON(url,{competitionId:competitionId,user_id:user_id}, function (data1) {
+    var  content1='';
+    var con_check='';
+
+        $$.each(data1, function(i1, field1){
+          var checked=field1.checked;
+          if(checked=='checked'){
+          var con_check='checked="checked"';
+          var con_check2='checked="checked"';
+        }else{
+          var con_check2='checked="no"';
+        }
+      //  console.log(checked);
+          content1+='<li>\
+              <label  class="label-checkbox item-content"  teamId="'+field1.teamId+'" '+con_check2+'>\
+            <input   type="checkbox" name="my-checkbox" id="checkbox" teamId="'+field1.teamId+'" '+con_check+'>\
+            <div class="item-media">\
+              <i class="icon icon-form-checkbox"></i>\
+            </div>\
+                <div class="item-inner"> \
+                  <div  class="item-title">'+field1.teamName+'</div>\
+                </div>\
+              </label>\
+            </li>';
+          });
+          var addcat='#catdata'+competitionId;
+          $$(addcat).append(content1);
+        });
+}
+$$(document).on("click", "#home", function() {
+  $$(".toolbar").css('display', 'block');
+  $$('#menu_right').html('');
+  $$('#content').html('');
+
+});
+
+$$(document).on("click", "#checkbox", function() {
+  var isChecked = $$(this).attr('checked');
+  var teamId=$$(this).attr("teamId");
+  //console.log(isChecked);
+  //console.log(teamId);
+alert(isChecked);
+  if(!isChecked){
+  addcatdata(teamId);
+  var isCheckedadd = $$(this).attr('checked',"checked");
+  //console.log("add");
+  }else{
+delcatdata(teamId);
+  var isCheckedadd = $$(this).attr('checked',"no");
+//console.log("del");
+  }
+});
+
+function addcatdata(teamId){
+  var newsdetail = "http://"+hosturl+"/ballsteppro_mobile/api/catdata.php?jsoncallback=?";
+  $$.getJSON( newsdetail, {
+      datatype:"addcatdata",
+      user_id:user_id,
+      teamId:teamId,
+  });
+}//function addcatdata
+
+function delcatdata(teamId){
+  var newsdetail = "http://"+hosturl+"/ballsteppro_mobile/api/catdata.php?jsoncallback=?";
+  $$.getJSON( newsdetail, {
+      datatype:"delcatdata",
+      user_id:user_id,
+      teamId:teamId,
+  });
+}//function delcatdata
+
+
+function checklogin() {
+  if(localStorage.user_id2&&localStorage.track)
+  {
+  user_id2 = localStorage.user_id2;
+  track=localStorage.track;
+  homevip();
+  //localStorage.clear();
+  //alert(user_id);
+  }
+  else
+  {
+  login();
+  }
+}
+function login() {
+  $$("#content").html("");
+  var content='<div class="content-block-title">Sign In</div> \
+  <div class="list-block">\
+    <ul>\
+    <li>\
+    <div class="item-content">\
+      <div class="item-media"><i class="material-icons">account_circle</i></div>\
+      <div class="item-inner">\
+        <div class="item-title label">Username</div>\
+        <div class="item-input">\
+          <input id="username" type="text" placeholder="Username">\
+        </div>\
+      </div>\
+    </div>\
+  </li>\
+  <li>\
+  <div class="item-content">\
+    <div class="item-media"><i class="material-icons">https</i></div>\
+    <div class="item-inner">\
+      <div class="item-title label">Password</div>\
+      <div class="item-input">\
+        <input id="password" type="password" placeholder="Password">\
+      </div>\
+    </div>\
+  </div>\
+  </li>\
+  </ul>\
+  </div>\
+  </div>\
+  <div class="row">\
+    <div class="col-50">\
+      <a id="sign_up" href="#" class="button  button-fill">Sign Up</a>\
+    </div>\
+    <div class="col-50">\
+      <a id="sign_in" href="#" class="button  button-fill">Sign In</a>\
+    </div>\
+  </div> \
+  ';
+  $$("#content").append(content);
+
+}
+
+$$(document).on("click", "#sign_up", function() {
+  $$("#content").html("");
+  var content='<div class="content-block-title">Sign In</div> \
+  <div class="list-block">\
+    <ul>\
+  <div class="item-content">\
+    <div class="item-media"><i class="material-icons">account_circle</i></div>\
+    <div class="item-inner">\
+      <div class="item-title label">Username</div>\
+      <div class="item-input">\
+        <input id="username" type="text" placeholder="Username">\
+      </div>\
+    </div>\
+  </div>\
+</li>\
+<li>\
+<div class="item-content">\
+  <div class="item-media"><i class="material-icons">mail</i></div>\
+  <div class="item-inner">\
+    <div class="item-title label">E-mail</div>\
+    <div class="item-input">\
+      <input id="email" type="email" placeholder="E-mail">\
+    </div>\
+  </div>\
+</div>\
+</li>\
+<li>\
+  <li>\
+  <div class="item-content">\
+    <div class="item-media"><i class="material-icons">https</i></div>\
+    <div class="item-inner">\
+      <div class="item-title label">Password</div>\
+      <div class="item-input">\
+        <input id="password" type="password" placeholder="Password">\
+      </div>\
+    </div>\
+  </div>\
+  </li>\
+  <li>\
+  <div class="item-content">\
+    <div class="item-media"><i class="material-icons">https</i></div>\
+    <div class="item-inner">\
+      <div class="item-title label">Re-Password</div>\
+      <div class="item-input">\
+        <input id="re_password" type="password" placeholder="Re-Password">\
+      </div>\
+    </div>\
+  </div>\
+  </li>\
+  </ul>\
+  </div>\
+  </div>\
+  <div class="row">\
+    <div class="col-100">\
+      <a id="sign_up_regis" href="#" class="button  button-fill">Sign Up</a>\
+    </div>\
+  </div> \
+  ';
+  $$("#content").append(content);
+
+});
+
+$$(document).on("click", "#sign_up_regis", function() {
+var username = $$('#username').val();
+var email = $$('#email').val();
+var password = $$('#password').val();
+var re_password = $$('#re_password').val();
+if(password==re_password){
+  var url = "http://"+hosturl+"/ballsteppro_mobile/api/regisuser.php?jsoncallback=?";
+  $$.getJSON( url, {
+      username:username,
+      email:email,
+      password:password,
+      re_password:re_password,}
+,function( data ) {
+  $$.each(data, function(i, field){
+  var msg=field.msg;
+  if(msg=="no"){
+  myApp.alert("Have User", 'Ballstep!');
+  }
+  else{
+login();
+  }
+  });
+  });
+}else{
+myApp.alert('Password Not Match Re-Password', 'Ballstep!');
+}
+});
+
+
+$$(document).on("click", "#sign_in", function() {
+  var username = $$('#username').val();
+  var password = $$('#password').val();
+    var url = "http://"+hosturl+"/ballsteppro_mobile/api/loginuser.php?jsoncallback=?";
+    $$.getJSON( url, {
+        username:username,
+        password:password}
+  ,function( data ) {
+    $$.each(data, function(i, field){
+    var msg=field.msg;
+    if(msg=="no"){
+    myApp.alert("User Or Password Worng", 'Ballstep!');
+    }
+    else{
+      user_id2=field.user_id;
+      track=field.track;
+      localStorage.user_id2=field.user_id;
+      localStorage.track=field.track;
+      homevip();
+    }
+    });
+    });
+
+});//click sign_in
+
+
+$$(document).on("click", "#barcat", function() {
+$$("#content").html("");
+myApp.attachInfiniteScroll($$('.infinite-scroll'));
+var addback='<a id="catbar" href="#" class="floating-button color-pink"> \
+Back \
+  </a>';
+$$(".page").append(addback);
+var newscat_id=$$(this).attr('newscat_id');
+ feednews(0,3,newscat_id);
+});
+
+
+
 
 function setting() {
 var content='<div class="card"> \

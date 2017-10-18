@@ -12,5 +12,5 @@ var mainView = myApp.addView('.view-main')
 
 // Load about page:
 mainView.router.load({pageName: 'index'});
-var hosturl="www.nawacore.com";
-var user_id;
+var hosturl="127.0.0.1";
+var user_id,user_id2,track;

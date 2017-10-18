@@ -6,7 +6,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Newsth</title>
+    <title>Ballstep</title>
     <link rel="stylesheet" href="css/framework7.material.css">
     <link rel="stylesheet" href="css/framework7.material.colors.css">
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500,700" rel="stylesheet" type="text/css">
@@ -33,40 +33,39 @@
                   </div>
                 <div class="navbar">
                   <div class="navbar-inner">
-                    <div class="left"><a href="index.html" class="back link icon-only"><i class="icon icon-back"></i></a></div>
+                  <div class="left"><div id="menu_left"> </div></div>
                     <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
-                    <div class="center sliding">Newsth</div>
-                    <div class="right"><a id="sign_up" href="#" class="button button-fill color-red">Submit</a></div>
+                    <div class="center sliding">Ballstep</div>
+                <div class="right"><div id="menu_right"> </div></div>
                   </div>
                 </div>
+                <!-- Additional "tabbar-scrollable" class -->
+                                  <div class="toolbar tabbar">
+                                      <div class="toolbar-inner">
+                      <a id="feed" href="#" class="tab-link active"><i class="material-icons">event_note</i></a>
+                      <a id="catalog" href="#" class="tab-link"><i class="material-icons">public</i></a>
+                      <a id="newstop" href="#" class="tab-link"><i class="material-icons">poll</i></a>
+                      <a id="account_circle" href="#" class="tab-link"><i class="material-icons">account_circle</i></a>
+                      <a id="setting" href="#" class="tab-link"><i class="material-icons">help_outline</i></a>
+                      <span class="tab-link-highlight" style="width: 20%; transform: translate3d(0%, 0px, 0px);"></span>
+                    </div><!-- toolbar class -->
+                                  </div><!-- toolbar class -->
+                <div class="page-content">
+<div id="content"></div>
+                </div><!-- data page -->
                 <div class="page-content infinite-scroll pull-to-refresh-content">
                   <!-- Default pull to refresh layer-->
-<div id="content"></div>
-<div class="infinite-scroll-preloader">
-  <div class="preloader"></div>
-</div>
+                <div class="infinite-scroll-preloader">
+                <div class="preloader"></div>
                 </div>
-
-                <!-- Additional "tabbar-scrollable" class -->
-                <div id="menu">
-                <div class="toolbar tabbar">
-                    <div class="toolbar-inner">
-    <a id="feed" href="#" class="tab-link active"><i class="material-icons">event_note</i></a>
-    <a id="catalog" href="#" class="tab-link"><i class="material-icons">public</i></a>
-    <a id="newstop" href="#" class="tab-link"><i class="material-icons">poll</i></a>
-    <a id="catbar" href="#" class="tab-link"><i class="material-icons">view_list</i></a>
-    <a id="setting" href="#" class="tab-link"><i class="material-icons">help_outline</i></a>
-    <span class="tab-link-highlight" style="width: 20%; transform: translate3d(0%, 0px, 0px);"></span>
-                    </div>
                 </div>
-              </div>
-              </div>
+              </div><!-- data page data -->
 
-              </div>
+            </div><!-- pages -->
 
 
-          </div>
-        </div>
+          </div><!-- view -->
+        </div><!-- viewes -->
   </body>
   <script type="text/javascript" src="cordova.js"></script>
   <script type="text/javascript" src="js/framework7.js"></script>
